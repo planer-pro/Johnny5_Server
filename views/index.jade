@@ -1,0 +1,15 @@
+html
+  head
+    title!= title
+  body
+    h1!= message
+
+    form(name="form", method="post")
+        div.input
+            span.label Value:
+            input(type="text", name="val")
+        div.actions
+            input(type="submit", value="SEND")
+
+    div #{ledState}
+    input(type="checkbox", name="completed", checked=(ledState))
