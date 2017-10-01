@@ -1,4 +1,4 @@
 # Johnny5_Server_Led13
 Test server to control Arduino from J5
 
-Hi everyone. Yhis is a start project of most project on Jonny-Five. It connect arduino board whith J5 web server.
+Hello. This is the starting project for most projects on Jonny-Five. It connects the arduino card to the J5 web server and changes the data.
