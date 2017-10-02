@@ -44,7 +44,7 @@ app.set('view engine', 'jade');
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(cookieParser());
-
+app.use(express.static('public'));
 
 app.get('/', function (req, res) {
     if (req.cookies.userHash != hash) {
@@ -107,6 +107,11 @@ app.post('/login', function (req, res) {
     } else {
         res.render('login');
     }
+});
+
+app.get('/logout', function (req, res) {
+    res.clearCookie('userHash');
+    res.render('login');
 });
 
 

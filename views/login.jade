@@ -1,16 +1,12 @@
-html
-  head
-    title Login
-  body
-    h1 Login
+extends template
 
-    form(name="form", method="post")
-        div.input
-            span.label Enter password::
-            input(name="password", type="password")
-        div.actions
-            input(type="submit", value="LOGIN")
-         
+block page
+    .container
+        form.form-signin(name="form", method="post")
+            h2.form-signin-heading Please sign in
+            label.sr-only(for='inputPassword') Password
+            input#inputPassword.form-control(name="password", type='password', placeholder='Password')
+            button.btn.btn-lg.btn-primary.btn-block(type='submit') Sign in
 
 
  

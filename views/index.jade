@@ -1,19 +1,23 @@
-html
-  head
-    title!= title
-    script(src='https://code.jquery.com/jquery-3.2.1.min.js', integrity='sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=', crossorigin='anonymous')
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js')
-  body
-    h1!= message
+extends template
 
-    form(name="form", method="post")
-        div.input
-            span.label Value:
-            input(id="textArea", name="textArea", type="text", value=(returnText))
-        div.actions
-            input(type="submit", value="SEND")
-            span.label Ready
-            input(name="completed", type="checkbox", checked=(readyState))
+block page
+
+  .container
+    .row
+      .col-sm-11
+      .col-sm-1
+        span.pull-right
+          a.btn.btn-primary(href='/logout', role='button') Signout
+    .container
+        form(name="form", method="post")
+            div.input
+                span.label Value:
+                input(id="textArea", name="textArea", type="text", value=(returnText))
+            div.actions
+                //- span.label Ready
+                //- input(name="completed", type="checkbox", checked=(readyState))
+                input(type="submit", value="SEND")
+
 
 
     //- script(src='client.js')
