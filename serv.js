@@ -1,4 +1,9 @@
 var PASSWORD = process.env.PASSWORD || "111";
+var LOGIN_DISABLE = process.env.LOGIN_DISABLE || false;
+
+console.log("Login disabled: " + LOGIN_DISABLE);
+if (!LOGIN_DISABLE)
+    console.log("Password: " + PASSWORD);
 
 
 //server
@@ -10,7 +15,6 @@ var io = require('socket.io')(http);
 var cookieParser = require('cookie-parser')
 var crc = require("crc");
 var hash = crc.crc32(PASSWORD).toString(16);
-console.log(PASSWORD);
 
 //J5
 const five = require('johnny-five');
@@ -47,14 +51,15 @@ app.use(cookieParser());
 app.use(express.static('public'));
 
 app.get('/', function (req, res) {
-    if (req.cookies.userHash != hash) {
+    if (LOGIN_DISABLE && req.cookies.userHash != hash) {
         res.redirect('/login');
     } else {
         res.render('index', {
             title: 'Hey',
             message: 'Hello there!',
             readyState: led ? led.isOn : null,
-            returnText: lcdText
+            returnText: lcdText,
+            singoutButton: LOGIN_DISABLE
         });
     }
 });
@@ -73,7 +78,8 @@ app.post('/', function (req, res) {
         title: 'Hey',
         message: 'Hello there!',
         readyState: led ? led.isOn : null,
-        returnText: lcdText
+        returnText: lcdText,
+        singoutButton: !LOGIN_DISABLE
     });
 });
 
