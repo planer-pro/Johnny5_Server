@@ -7,9 +7,8 @@ html
     form(name="form", method="post")
         div.input
             span.label Value:
-            input(type="text", name="val")
+            input(type="text", name="val", value = (returnText))
         div.actions
             input(type="submit", value="SEND")
-
-    div #{ledState}
-    input(type="checkbox", name="completed", checked=(ledState))
+            span.label Ready
+            input(type="checkbox", name="completed", checked=(readyState))
