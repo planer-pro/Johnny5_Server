@@ -1,14 +1,30 @@
 html
   head
     title!= title
+    script(src='https://code.jquery.com/jquery-3.2.1.min.js', integrity='sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=', crossorigin='anonymous')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js')
   body
     h1!= message
 
     form(name="form", method="post")
         div.input
             span.label Value:
-            input(type="text", name="val", value = (returnText))
+            input(id="textArea", name="textArea", type="text", value=(returnText))
         div.actions
             input(type="submit", value="SEND")
             span.label Ready
-            input(type="checkbox", name="completed", checked=(readyState))
+            input(name="completed", type="checkbox", checked=(readyState))
+
+
+    //- script(src='client.js')
+    script(type='text/javascript').
+      $(function () {
+        var socket = io();
+        //- socket.emit("get data");
+        socket.on('update_text', function(data){
+          $("#textArea").val(data);
+          console.log(data);
+        });
+      });
+
+
