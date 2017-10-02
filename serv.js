@@ -1,8 +1,8 @@
 var PASSWORD = process.env.PASSWORD || "111";
-var LOGIN_DISABLE = process.env.LOGIN_DISABLE || false;
+var SECURE = process.env.SECURE == "0" ? false : true;
 
-console.log("Login disabled: " + LOGIN_DISABLE);
-if (!LOGIN_DISABLE)
+console.log("Secure enabled: " + SECURE);
+if (SECURE)
     console.log("Password: " + PASSWORD);
 
 
@@ -51,7 +51,7 @@ app.use(cookieParser());
 app.use(express.static('public'));
 
 app.get('/', function (req, res) {
-    if (LOGIN_DISABLE && req.cookies.userHash != hash) {
+    if (SECURE && req.cookies.userHash != hash) {
         res.redirect('/login');
     } else {
         res.render('index', {
@@ -59,7 +59,7 @@ app.get('/', function (req, res) {
             message: 'Hello there!',
             readyState: led ? led.isOn : null,
             returnText: lcdText,
-            singoutButton: LOGIN_DISABLE
+            singoutButton: SECURE
         });
     }
 });
@@ -79,7 +79,7 @@ app.post('/', function (req, res) {
         message: 'Hello there!',
         readyState: led ? led.isOn : null,
         returnText: lcdText,
-        singoutButton: !LOGIN_DISABLE
+        singoutButton: SECURE
     });
 });
 

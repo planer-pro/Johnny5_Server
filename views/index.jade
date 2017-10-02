@@ -2,14 +2,14 @@ extends template
 
 block page
 
-  if singoutButton
-    .container
-      .row
-        .col-sm-11
-        .col-sm-1
-          span.pull-right
-            a.btn.btn-primary(href='/logout', role='button') Signout
-            
+    if singoutButton
+      .container
+        .row
+          .col-sm-11
+          .col-sm-1
+            span.pull-right
+              a.btn.btn-primary(href='/logout', role='button') Signout
+
     .container
         form(name="form", method="post")
             div.input
