@@ -20,17 +20,12 @@ block page
                 //- input(name="completed", type="checkbox", checked=(readyState))
                 input(type="submit", value="SEND")
 
+        div#slider
+
 
 
     //- script(src='client.js')
-    script(type='text/javascript').
-      $(function () {
-        var socket = io();
-        //- socket.emit("get data");
-        socket.on('update_text', function(data){
-          $("#textArea").val(data);
-          console.log(data);
-        });
-      });
-
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/10.1.0/nouislider.min.js')
+    script(src='clinet.js')
+  
 

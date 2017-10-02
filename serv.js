@@ -1,4 +1,6 @@
-var PASSWORD = process.env.PASSWORD || "111";
+require('dotenv').config()
+
+var PASSWORD = process.env.PASSWORD;
 var SECURE = process.env.SECURE == "0" ? false : true;
 
 console.log("Secure enabled: " + SECURE);
@@ -15,6 +17,7 @@ var io = require('socket.io')(http);
 var cookieParser = require('cookie-parser')
 var crc = require("crc");
 var hash = crc.crc32(PASSWORD).toString(16);
+
 
 //J5
 const five = require('johnny-five');
@@ -84,14 +87,22 @@ app.post('/', function (req, res) {
 });
 
 
-// io.on('connection', function (socket) {
-//     console.log("new connection");
+io.on('connection', function (socket) {
+    console.log("new connection");
 
-//     // socket.on('get data', function (msg) {
-//     //     // console.log(receivedData);
-//     //     // io.emit('new data', receivedData);
-//     // });
-// });
+    socket.on('slider_value', function (msg) {
+        console.log(msg);
+
+        // // sending to sender-client only
+        // socket.emit('message', "this is a test");
+
+        // // sending to all clients, include sender
+        // io.emit('message', "this is a test");
+
+        // sending to all clients except sender
+        socket.broadcast.emit('slider_value', msg);
+    });
+});
 
 
 
