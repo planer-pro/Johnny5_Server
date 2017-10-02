@@ -1,9 +1,16 @@
+var PASSWORD = process.env.PASSWORD || "111";
+
+
 //server
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var cookieParser = require('cookie-parser')
+var crc = require("crc");
+var hash = crc.crc32(PASSWORD).toString(16);
+console.log(PASSWORD);
 
 //J5
 const five = require('johnny-five');
@@ -32,25 +39,24 @@ var counter = 0;
 // });
 
 
-//socketIO counter 
-// setInterval(function () {
-//     counter++;
-//     console.log(counter);
-//     io.emit('update_counter', counter);
-// }, 1000);
-
 
 app.set('view engine', 'jade');
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(cookieParser());
+
 
 app.get('/', function (req, res) {
-    res.render('index', {
-        title: 'Hey',
-        message: 'Hello there!',
-        readyState: led ? led.isOn : null,
-        returnText: lcdText
-    });
+    if (req.cookies.userHash != hash) {
+        res.redirect('/login');
+    } else {
+        res.render('index', {
+            title: 'Hey',
+            message: 'Hello there!',
+            readyState: led ? led.isOn : null,
+            returnText: lcdText
+        });
+    }
 });
 
 app.post('/', function (req, res) {
@@ -83,9 +89,28 @@ app.post('/', function (req, res) {
 
 
 
-http.listen(3000, function () {
-    console.log('Example app listening on port http://localhost:3000');
+
+
+
+
+
+
+
+app.get('/login', function (req, res) {
+    res.render('login');
+});
+
+app.post('/login', function (req, res) {
+    if (req.body.password == PASSWORD) {
+        res.cookie('userHash', hash, { maxAge: 3600000, httpOnly: true })
+        res.redirect('/');
+    } else {
+        res.render('login');
+    }
 });
 
 
 
+http.listen(3000, function () {
+    console.log('Example app listening on port http://localhost:3000');
+});
