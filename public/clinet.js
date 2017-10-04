@@ -1,10 +1,7 @@
-
-
 $(function () {
     var slider = document.getElementById('slider');
 
     var socket = io();
-
 
     //- socket.emit("get data");
     socket.on('update_text', function (data) {
@@ -17,8 +14,6 @@ $(function () {
         console.log(data);
     });
 
-
-
     noUiSlider.create(slider, {
         start: [50],
         range: {
@@ -27,10 +22,9 @@ $(function () {
         }
     });
 
-    slider.noUiSlider.on('change', function () {
+    slider.noUiSlider.on('slide', function () {
         var sliderVal = slider.noUiSlider.get();
         console.log(sliderVal)
         socket.emit("slider_value", sliderVal);
     });
-
 });
