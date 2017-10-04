@@ -24,16 +24,16 @@ var lcd;
 var lcdText;
 var faderVal = 0;
 
-var board = new five.Board({ port: "COM11" });
-board.on('ready', () => {
-    console.log("board connected");
+// var board = new five.Board({ port: "COM11" });
+// board.on('ready', () => {
+//     console.log("board connected");
 
-    lcd = new five.LCD({
-        controller: "PCF8574T",
-        rows: 4,
-        cols: 20
-    });
-});
+//     lcd = new five.LCD({
+//         controller: "PCF8574T",
+//         rows: 4,
+//         cols: 20
+//     });
+// });
 
 // board.on("fail", function (event) {
 //     console.log("%s sent a 'fail' message: %s", event.class, event.message);
@@ -110,7 +110,8 @@ app.post('/login', function (req, res) {
         res.redirect('/');
     } else {
         res.render('login', {
-            placeholderTxt: 'WRONG PASSWORD!'
+            placeholderTxt: 'WRONG PASSWORD!',
+            wrongPass: true
         });
     }
 });
@@ -120,6 +121,8 @@ app.get('/logout', function (req, res) {
     res.redirect('/login');
 });
 
-http.listen(3000, function () {
-    console.log('Example app listening on port http://localhost:3000');
+
+var port=process.env.PORT || 3000;
+http.listen(port, function () {
+    console.log('Example app listening on port http://localhost:'+port);
 });
